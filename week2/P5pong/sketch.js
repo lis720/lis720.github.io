@@ -47,6 +47,8 @@ function setup() {
 
   fill(255,0,0);
   createCanvas(1000, 600);
+ 
+
 
 
 

@@ -1,25 +1,237 @@
-<!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <meta charset="UTF-8">
-    <title>Book Shopping Guide Today</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="style.css">
-  </head>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <body>
-    <div id="masthead">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/387928/nyt-logo.png" height="80" id="nyt-logo">
-    </div>
+<!-- embeded css-->
+<style type="text/css">
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600);
 
-    <div id="best-seller-titles">
-      <!-- best sellers -->
-    </div>
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #ffb311;
+  font-family: 'Open Sans', sans-serif;
+}
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="config.js"></script>
-    <script  src="index.js"></script>
-    <script src="./nytimesArchive.js"></script>
+.book-cover {
+  display: block;
+  margin: 0 auto;
+  width: 150px;
+  -webkit-transform: translateY(-30px);
+          transform: translateY(-30px);
+}
 
-  </body>
+
+.entry:before {
+  content: attr(nyt-rank);
+  font-size: 2rem;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+}
+
+#best-seller-titles {
+  max-width: 475px;
+  margin: 120px auto;
+}
+
+#best-seller-titles a {
+  margin: 40px 0px 0px 0px;
+  text-decoration: none;
+  color: #2b90d9;
+  line-height: .2;
+}
+
+#best-seller-titles h1, #best-seller-titles h2, #best-seller-titles h3, #best-seller-titles h4 {
+  color: #282c37;
+}
+
+#best-seller-titles p {
+  color: #333030;
+  line-height: 1.4;
+}
+
+#best-seller-titles .publisher {
+  color: #333030;
+}
+
+#best-seller-titles .stats hr {
+  opacity: .5;
+}
+
+#best-seller-titles .stats p {
+  color: #282c37;
+}
+
+
+#masthead img {
+  -webkit-transition: 100ms;
+}
+
+</style>
+</head>
+<body>
+
+<div id="masthead">
+  <img src="bookicon.png" height="80" id="logo">
+</div>
+
+
+<div id="reviews">
+   <!-- reviews -->
+</div>
+
+
+<div id="best-seller-titles">
+  <!-- best sellers -->
+</div>
+
+
+
+<!-- embeded js-->
+<script type="text/javascript">
+// 	fetch('https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?api-key=4ff915ebe1fa490587e91bd40485bb68', {
+//     method: 'get',
+//   }).then(
+
+//   	response => { return response.json();}
+//   	).then(
+//    	json => { updateBestSellers(json);
+//    	 }).catch(
+//    	error => {
+//     console.log('NYT API is not working');
+//     throw(error);
+//   });
+
+// function updateBestSellers(nytimesBestSellers) {
+// 	console.log(nytimesBestSellers);
+//   var i=0;
+//   nytimesBestSellers.results.forEach(function(book) {
+//     i=i+1;
+    
+//     var rank= i;
+//     if(((book.isbns).length)>0){
+//       var isbn = book.isbns[0].isbn10;
+//     }else{
+//       var isbn='162429023X';
+//     }
+//     if(((book.ranks_history).length)>0){
+       
+//     var weeksOnList = book.ranks_history[0].weeks_on_list;
+//     }else{
+//     var weeksOnList ='New this week!';
+//   }
+//     var listing = 
+//         '<div id="' + rank + '" class="entry">' + 
+//           '<p>' + 
+//           '<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/387928/book%20placeholder.png" class="book-cover" id="cover-' + rank + '">' + 
+//           '</p>' + 
+//           '<h2>' + book.title + '</h2>' +
+//           '<h4>By ' + book.author + '</h4>' +
+//           '<p>' + book.description + '</p>' + 
+//           '<div class="stats">' +
+//           '</div>' +
+//         '</div>';
+
+//     $('#best-seller-titles').append(listing);
+//     $('#' + rank).attr('nyt-rank', rank);
+
+//     updateCover(rank, isbn);
+//   });
+// }
+
+// function updateCover(id, isbn) {
+//   fetch('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn + "&key=AIzaSyBK87y2qAkKPYkUoe10jDhLhFAKHnyWzhc", {
+//     method: 'get'
+//   })
+//   .then(response => { return response.json(); })
+//   .then(data => {
+//     var im = data.items[0].volumeInfo.imageLinks.thumbnail;
+//     im = im.replace(/^http:\/\//i, 'https://');
+//     $('#cover-' + id).attr('src', im);
+//     var ids="The book Id "+"#cover-"+id;
+//     console.log(ids);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//     console.log('Googel API Error: Defaulting to archival images for book #' + id + ' ISBN: ' + isbn);
+//     var index = id - 1;
+//     var img = archivedImages[index];
+//     $('#cover-' + id).attr('src', img);
+//   });
+// }
+
+fetch('https://api.nytimes.com/svc/books/v3/lists.json?list-name=hardcover-fiction&api-key=6ad84e249d054efeaefe1abb8f89df5b', {
+    method: 'get',
+  })
+  .then(response => { return response.json(); })
+  .then(json => { updateBestSellers(json); })
+  .catch(error => {
+    console.log('NYT API Error: Defaulting to nytimes archival data.');
+    updateBestSellers(nytimesArchive);
+  });
+
+function updateBestSellers(nytimesBestSellers) {
+  nytimesBestSellers.results.forEach(function(book) {
+    var isbn = book.isbns[1].isbn10;
+    var bookInfo = book.book_details[0];
+    var lastWeekRank = book.rank_last_week || 'n/a';
+    var weeksOnList = book.weeks_on_list || 'New this week!';
+    var listing = 
+        '<div id="' + book.rank + '" class="entry">' + 
+          '<p>' + 
+          '<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/387928/book%20placeholder.png" class="book-cover" id="cover-' + book.rank + '">' + 
+          '</p>' + 
+          '<h2><a href="' + book.amazon_product_url + '" target="_blank">' + bookInfo.title + '</a></h2>' +
+          '<h4>By ' + bookInfo.author + '</h4>' +
+          '<h4 class="publisher">' + bookInfo.publisher + '</h4>' +
+          '<p>' + bookInfo.description + '</p>' + 
+          '<div class="stats">' +
+            '<hr>' + 
+            // '<p>Last Week: ' + lastWeekRank + '</p>' + 
+            // '<p>Weeks on list: ' + weeksOnList + '</p>' +
+          '</div>' +
+        '</div>';
+
+    $('#best-seller-titles').append(listing);
+    $('#' + book.rank).attr('nyt-rank', book.rank);
+
+    updateCover(book.rank, isbn);
+  });
+}
+
+function updateCover(id, isbn) {
+  fetch('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn + "&key=AIzaSyAcotR8YZ-Zsd6dcREUBhkUA_NE3UC5AIY", {
+    method: 'get'
+  })
+  .then(response => { return response.json(); })
+  .then(data => {
+    var img = data.items[0].volumeInfo.imageLinks.thumbnail;
+    img = img.replace(/^http:\/\//i, 'https://');
+    $('#cover-' + id).attr('src', img);
+  })
+  .catch(error => {
+    console.log(error);
+    console.log('Googel API Error: Defaulting to archival images for book #' + id + ' ISBN: ' + isbn);
+    var index = id - 1;
+    var img = archivedImages[index];
+    $('#cover-' + id).attr('src', img);
+  });
+}
+
+// $(window).scroll(function (event) {
+//     var scroll = $(window).scrollTop();
+//     if (scroll > 50) {
+//       $('#masthead').css({'height':'50', 'padding' : '8'})
+//       $('#nyt-logo').css({'height':'35'})
+//     } else {
+//       $('#masthead').css({'height':'100', 'padding':'10'});
+//       $('#nyt-logo').css({'height':'80'})
+//     }
+// });
+
+</script>
+
+</body>
 </html>
