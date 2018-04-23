@@ -1,0 +1,30 @@
+{
+  "colors": [
+    {
+      "color": "no1",
+      "category": "hue",
+      "type": "primary",
+      "code": {
+        "rgba": [240,142,209,1],
+        "hex": "#000"
+      }
+    },
+    {
+      "color": "no2",
+      "category": "value",
+      "code": {
+        "rgba": [248,73,209,1],
+        "hex": "#FFF"
+      }
+    },
+    {
+      "color": "no3",
+      "category": "hue",
+      "type": "primary",
+      "code": {
+        "rgba": [69,0,9,1],
+        "hex": "#FF0"
+      }
+    },
+  ]
+}
